@@ -1,0 +1,192 @@
+#title Python Templates
+
+Three templates for python scripting are available here, one for
+common modules, one for executable scripts, and the other one for test
+suites.
+
+I applied every template with BSD license. If you are using other
+license, please change it.
+
+** template for module:
+
+Please note module script *does not* need any '#!' line!
+
+"Time-stamp" line is a hooker mark for emacs. While saving the code,
+emacs will update the content in '<>' with your name and current time
+and date.
+
+----
+<example>
+# Time-stamp: <>
+
+"""Module Description
+
+Copyright (c) 2008 Your Name <your@email.com>
+
+This code is free software; you can redistribute it and/or modify it
+under the terms of the BSD License (see the file COPYING included with
+the distribution).
+
+@status:  experimental
+@version: $Revision$
+@author:  Your Name
+@contact: your@email.com
+"""
+
+# ------------------------------------
+# python modules
+# ------------------------------------
+
+import sys
+import re
+
+
+# ------------------------------------
+# constants
+# ------------------------------------
+
+# ------------------------------------
+# Misc functions
+# ------------------------------------
+def a ():
+    """Function summary.
+
+    Parameters:
+
+    Return Value:
+    
+    """
+    pass
+# ------------------------------------
+# Classes
+# ------------------------------------
+def A:
+    """Class summary.
+
+    Example:
+    
+    """
+    def __init__ (self):
+        """Function summary.
+
+        Parameters:
+
+        Return Value:
+        
+        """
+        pass
+</example>
+----
+
+** template for executable python script
+
+----
+<example>
+#!/usr/bin/env python
+# Time-stamp: <>
+
+"""Module Description
+
+Copyright (c) 2008 Your Name <your@email.com>
+
+This code is free software; you can redistribute it and/or modify it
+under the terms of the BSD License (see the file COPYING included with
+the distribution).
+
+@status:  experimental
+@version: $Revision$
+@author:  Your Name
+@contact: your@email.com
+"""
+
+# ------------------------------------
+# python modules
+# ------------------------------------
+
+import os
+import sys
+import re
+from optparse import OptionParser
+
+# ------------------------------------
+# constants
+# ------------------------------------
+
+# ------------------------------------
+# Misc functions
+# ------------------------------------
+
+# ------------------------------------
+# Classes
+# ------------------------------------
+
+# ------------------------------------
+# Main function
+# ------------------------------------
+def main():
+    usage = "usage: %prog [options]"
+    description = "blah blah blah"
+    
+    optparser = OptionParser(version="%prog 0.1",description=description,usage=usage,add_help_option=False)
+    optparser.add_option("-h","--help",action="help",help="Show this help message and exit.")
+    optparser.add_option("-i","--ifile",dest="ifile",type="string",
+                         help="input file")
+    optparser.add_option("-o","--ofile",dest="ofile",
+                         help="output file") 
+    (options,args) = optparser.parse_args()
+    
+
+if __name__ == '__main__':
+    try:
+        main()
+    except KeyboardInterrupt:
+        sys.stderr.write("User interrupt me! ;-) See you!\n")
+        sys.exit(0)
+</example>
+----
+
+** template for test suite
+
+Test suites are recommended for all our projects. Please check the
+python lib references for detail.
+
+----
+<example>
+#!/usr/bin/env python
+"""Module Description
+
+Copyright (c) 2008 Your Name <your@email.com>
+
+This code is free software; you can redistribute it and/or modify it
+under the terms of the BSD License (see the file COPYING included with
+the distribution).
+
+@status:  experimental
+@version: $Revision$
+@author:  Your Name
+@contact: your@email.com
+"""
+
+# ------------------------------------
+# python modules
+# ------------------------------------
+
+from YourPackage import *
+import unittest
+
+# ------------------------------------
+# Classes
+# ------------------------------------
+
+class TestYourModule(unittest.TestCase):
+    def setUp(self):
+        self.demo_result = None
+
+    def test_your_func (self):
+        this_result = do_something()
+        self.assertEqual(this_result,self.demo_result)        
+
+if __name__ == '__main__':
+    unittest.main()
+</example>
+----

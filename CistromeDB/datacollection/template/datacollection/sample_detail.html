@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block title %}Sample Detail page{% endblock %}
+{% block h1 %}Sample Detail{% endblock %}
+
+{% block content %}
+    <td valign="top">
+      {% include 'loginfo.html' %}
+      {% include 'datacollection/query_sample.html' %}      
+      <table>
+	<tr>
+	  <td>
+	    <h3>Sample Detail</h3>
+	    <a href='../{{sample.id}}/update/'>update</a>
+	    | <a href='../{{sample.id}}/delete/'>delete</a>
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <div class="showcase">
+	      <table>
+		<tbody>
+		<tr>
+		  <th> Paper </th>
+		  <td> {{sample.series.paper}}</td>
+		</tr>
+		<tr>
+		  <th> Factor </th>
+		  <td> <a href="/CistromeDB/sample/factor/{{sample.factor}}/"><b>{{sample.factor}}</b></a> </td>
+		</tr>
+		<tr>
+		  <th> Species </th>
+		  <td> <a href="/CistromeDB/sample/species/{{sample.species}}/"><b>{{sample.species}}</b></a> </td>
+		</tr>
+		<tr>
+		  <th> Cell </th>
+		  <td> <a href="/CistromeDB/sample/cell/{{sample.cell}}/"><b>{{sample.cell}}</b></a></td>
+		</tr>
+		<tr>
+		  <th> Experimental Type </th>
+		  <td> <a href="/CistromeDB/sample/exp_type/{{sample.exp_type}}/"><b>{{sample.exp_type}}</b></a></td>
+		</tr>
+		<tr>
+		  <th> Platform </th>
+		  <td> <a href="/CistromeDB/sample/platform/{{sample.exp_type}}/"><b>{{sample.platform}}</b></a></td>
+		</tr>
+		</tbody>
+	      </table>
+	    </div>
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <h3>Files for this sample</h3>
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <div class="download">
+	      <table>
+		<tr>
+		  <td>
+		    <a href="{{ sample.raw_file.url }}">Raw Data</a>
+		  </td>
+		</tr>
+		<tr>
+		  <td>
+		    <a href="/CistromeDB/sample/{{ sample.id }}/upload/raw">upload</a>
+		  </td>
+		</tr>
+	      </table>
+	    </div>
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <h3>Available Operation for this sample</h3>
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <ul>
+	      {% for link in available_link%}
+	      <li>
+		<a href="{{ link.0 }}">{{ link.1 }}</a>
+	      </li>
+	      {% endfor %}
+	    </ul>
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <h3>Series for this sample</h3>
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <div class="showcase">
+	      <table>
+		<thead>
+		  <tr>
+		    <th> Paper </th>
+		    <th> Lab   </th>
+		    <th> Pubmed </th>
+		    <th> GEO    </th>
+		    <th> Status </th>
+		  </tr>
+		</thead>
+		<tbody>
+		  {% block seriescontent %}
+		  <tr>
+		    <td>{{ sample.series.short_paper }}</td>
+		    <td>{{ sample.series.lab }}</td>
+		    <td><a href="http://www.ncbi.nlm.nih.gov/sites/entrez?db=pubmed&cmd=search&term={{ series.pubmed }}[pmid]">{{ sample.series.pubmed }}</a></td>
+		    <td>GSE{{ sample.series.geo }}</td>
+		    <td><a href="/CistromeDB/series/{{ sample.series.id }}/">{{ sample.series.status }}</a></td>
+		  </tr>
+		  {% endblock %}
+		</tbody>
+	      </table>
+	    </div>
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    {% load comments %}
+	    {% get_comment_count for sample as comment_count %}
+	    {% block commentcountcontent %}
+	    <h3>{{comment_count}} comment(s) for this sample</h3>
+	    {% endblock %}
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    {% get_comment_list for sample as comment_list %}
+	    {% block commentcontent %}
+	    {% for comment in comment_list %}
+	    <p><b>{{comment.user_name}}</b> said at <b>{{comment.submit_date}}</b><br />
+	      {{comment.comment}}</p>
+	    {% endfor %}
+	    {% endblock %}
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	    <h4>add your comment</h4>
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+	  {% render_comment_form for sample %}
+	  </td>
+	</tr>
+      </table>
+    </td>
+ {% endblock %}

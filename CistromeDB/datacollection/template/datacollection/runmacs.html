@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Run MACS{% endblock %}
+{% block h1 %}MACS -- Model-based Analysis for ChIP-Seq{% endblock %}
+
+{% block content %}
+    <td valign="top">
+      {% include 'loginfo.html' %}
+      <table>
+	<tr>
+	  <td>
+	    <div class="showcase">
+	      <table>
+		<tr>
+		  <td>
+		    <form action="." method="POST">
+			  {{form.as_table}}
+		      <td><input type="submit" value="Submit" /></td>
+		    </form>
+		  </td>
+		</tr>
+	      </table>
+	    </div>
+	  </td>
+	</tr>
+      </table>
+    </td>
+{% endblock %}

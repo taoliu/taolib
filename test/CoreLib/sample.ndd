@@ -1,0 +1,42 @@
+# Content in CTCF_HeLa-G2.ndd
+# comment line must begin with ‘#’
+# Time-stamp: <2008-09-14 23:08:54 Tao Liu> 
+
+# Index field is not used in submission, you can fill it with anything you want...
+Index= CSM11
+Factor= CTCF
+Organism= Homo sapiens
+Assembly= hg18
+Cell= HeLa
+Platform= Affymetrix GeneChip Human Tiling 1.0R Array set
+
+# for status, if you provided all the raw/peak/wiggle data, write it as 'completed', otherwise, 'processing'
+Status= completed
+
+# these are the path on freesia server
+Raw= /cluster/homes/zcoban/11/CEL/CTCF_raw.tar.gz
+XLS= /cluster/homes/zcoban/11/TAG/CTCF_peak.xls
+Wiggle= /cluster/homes/zcoban/11/TAG/CTCF_wiggle.tar.gz
+
+# whole name of the lab
+Lab= Laboratory of Chromosome Structure and Inheritance, Graduate School of Bioscience and Biotechnology, Tokyo Institute of Technology, Department of Biological Sciences
+# title for the paper.
+Paper= Cohesin mediates transcriptional insulation by CCCTC-binding factor
+
+Condition= G2 phase
+
+# the GEO accession number. platform id:series id:sample ids
+GEO=GPL6131:GSE9613:GSM243234,GSM243235,GSM243236,GSM243237,GSM243238,GSM243239,GSM243240,GSM243241,GSM243242,GSM243243,GSM243244,GSM243245,GSM243246,GSM243247
+
+# pubmed id
+PubMED= 18235444
+
+# ChIP-chip or ChIP-seq
+Type= ChIP-chip
+
+# any comment
+Comment= Using MAT, default, p-value cutoff 1e-3
+
+# submitted by
+
+Submit= Zcoban

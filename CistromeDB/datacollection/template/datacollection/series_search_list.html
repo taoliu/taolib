@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Series Index page{% endblock %}
+{% block h1 %}Series Index for <i>{{query|escape}}</i>{% endblock %}
+
+{% block content %}
+    <td valign="top">
+      {% include 'loginfo.html' %}
+      {% include 'datacollection/query_series.html' %}
+      <div class="showcase">
+	<table>
+	  {% if query %}
+	  <thead>
+	    <tr>
+	      <th> Paper </th>
+	      <th> Lab   </th>
+	      <th> Pubmed </th>
+	      <th> GEO    </th>
+	      <th> Status </th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    {% for s in series_list %}
+	    <tr>
+	      <td>{{ s.short_paper }}</td>
+	      <td>{{ s.lab }}</td>
+	      <td><a href="http://www.ncbi.nlm.nih.gov/pubmed/{{ s.pubmed }}">{{ s.pubmed }}</a></td>
+	      <td><a href="http://www.ncbi.nlm.nih.gov/projects/geo/query/acc.cgi?acc=GSE{{ series.geo }}">GSE{{ s.geo }}</a></td>
+	      <td><a href="../{{ s.id }}/">{{ s.status }}</a></td>
+	    </tr>
+	    {% endfor %}
+	    <tr>
+	      <td colspan="5">
+		<div style="text-align:right">
+		  <span>
+		    {% if page_obj.has_previous %}
+		    <a href="?page=1&q={{ query|escape }}"> |< </a>
+		    <a href="?page={{ page_obj.previous_page_number }}&q={{ query|escape }}"> << </a>
+		    {% endif %}
+		  </span> 
+		  <span>
+		    Page {{ page_obj.number }} of {{ paginator.num_pages }}
+		  </span>
+		  <span>
+		    {% if page_obj.has_next %}
+		    <a href="?page={{ page_obj.next_page_number }}&q={{ query|escape }}">
+		    >> </a> 
+		    <a href="?page=last&q={{ query|escape }}"> >| </a>
+		    {% endif %}
+		  </span>
+		</div>
+	      </td>
+	    </tr>
+	  </tbody>
+	  {% else %}
+	  <tr><td>
+	  <b>No Series Found</b>
+	  </td></tr>
+
+	  {% endif %}
+	</table>
+      </div>
+    </td>
+{% endblock %}

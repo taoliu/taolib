@@ -1,0 +1,195 @@
+#title Data Submission
+
+Submit entry in the following form. The **bold** fields are
+required. Empty fields will be recorded as 'NA'. The meaning of each
+field can be found at [[HelpSubmit#definition][Definition page]].
+----
+<literal>
+<form name="arcform" action="/cgi-bin/new_submission.py" method="post">
+<table border=1>
+    <tr>
+        <td bgcolor="d0d0d0" colspan=2>
+	  <b>Submit</b>:
+	  <input name="Submit" type="text" size=94 /><br />
+	</td>
+    <tr/>
+    
+    <tr>
+        <td bgcolor="d0d0d0" colspan=2>
+	  <b>Paper</b>:
+	  <input name="Paper" type="text" size=95 /><br />
+	</td>
+    <tr/>
+    
+    <tr>
+        <td bgcolor="d0d0d0" colspan=2>
+	  <b>Platform</b>:
+	  <input name="Platform" type="text" size=92 /><br />
+	</td>
+    <tr/>
+    
+    <tr>
+        <td bgcolor="d0d0d0" colspan=2>
+	  Organism:
+	  <input name="Organism" type="text" size=92 /><br />
+
+	</td>
+    <tr/>
+    
+    <tr>
+        <td bgcolor="d0d0d0" colspan=2>
+	  Assembly:
+	  <input name="Assembly" type="text" size=92 /><br />
+	</td>
+    <tr/>
+    
+    <tr>
+        <td bgcolor="d0d0d0" colspan=2>
+	  Factor:
+	  <input name="Factor" type="text" size=94 /><br />
+	</td>
+    <tr/>
+    
+    <tr>
+        <td bgcolor="d0d0d0" colspan=2>
+	  Cell:
+	  <input name="Cell" type="text" size=96 /><br />
+	</td>
+
+    <tr/>
+    
+    <tr>
+        <td bgcolor="d0d0d0" colspan=2>
+
+	  Lab:
+	  <input name="Lab" type="text" size=97 /><br />
+	</td>
+    <tr/>
+    
+    <tr>
+        <td bgcolor="d0d0d0" colspan=2>
+	  Condition:
+	  <input name="Condition" type="text" size=91 /><br />
+	</td>
+    <tr/>
+
+    
+    <tr>
+        <td bgcolor="d0d0d0" colspan=2>
+	  Type:
+	  <input name="Type" type="text" size=96 /><br />
+	</td>
+    <tr/>
+    
+    <tr>
+        <td bgcolor="d0d0d0" colspan=2>
+	  Status:
+	  <input name="Status" type="text" size=94 /><br />
+
+	</td>
+    <tr/>
+    
+    <tr>
+        <td bgcolor="d0d0d0" colspan=2>
+	  PubMED:
+	  <input name="PubMED" type="text" size=94 /><br />
+	</td>
+    <tr/>
+    
+    <tr>
+        <td bgcolor="d0d0d0" colspan=2>
+	  GEO:
+	  <input name="GEO" type="text" size=97 /><br />
+	</td>
+    <tr/>
+    
+    <tr>
+        <td bgcolor="d0d0d0" colspan=2>
+	  Raw:
+	  <input name="Raw" type="text" size=97 /><br />
+	</td>
+
+    <tr/>
+    
+    <tr>
+        <td bgcolor="d0d0d0" colspan=2>
+	  XLS:
+	  <input name="XLS" type="text" size=97 /><br />
+	</td>
+    <tr/>
+    
+    <tr>
+        <td bgcolor="d0d0d0" colspan=2>
+	  Wiggle:
+	  <input name="Wiggle" type="text" size=94 /><br />
+	</td>
+    <tr/>
+    
+    <tr>
+        <td bgcolor="d0d0d0" colspan=2>
+	  Comment:
+	  <input name="Comment" type="text" size=93 /><br />
+	</td>
+    <tr/>
+  <tr>
+	<td bgcolor="d0d0d0" colspan=2>
+	  <input name="process" type="submit" value="submit" />
+	</td>
+  </tr>
+</table>
+</form>
+</literal>
+
+
+Change your submission (previous timestamp, paper and submit
+information can not be changed):
+<literal>
+<form name="arcform" action="/cgi-bin/update_by_id.py"
+method="post" enctype="multipart/form-data">
+<table border>
+  <tr>
+        <td bgcolor="d0d0d0">
+	  Submit in
+          <select name="db">
+            <option value="RawChIP">Raw ChIP DB</option>
+            <option value="Motif">Motif DB</option>
+            <option value="GEO">GEO DB</option>
+          </select>
+        </td>
+	<td bgcolor="d0d0d0">
+	  id:
+	  <input name="id" type="text" /><br />
+	</td>
+	<td bgcolor="d0d0d0">
+	  <input name="process" type="submit" value="update"/>
+	</td>
+  </tr>
+</table>
+</form>
+</literal>
+
+Delete your submission:
+<literal>
+<form name="arcform" action="/cgi-bin/delete_by_id.py"
+method="query">
+<table border>
+  <tr>
+        <td bgcolor="d0d0d0">
+	  Submit in
+          <select name="db">
+            <option value="RawChIP">Raw ChIP DB</option>
+            <option value="Motif">Motif DB</option>
+            <option value="GEO">GEO DB</option>
+          </select>
+        </td>
+	<td bgcolor="d0d0d0">
+	  id:
+	  <input name="id" type="text" /><br />
+	</td>
+	<td bgcolor="d0d0d0">
+	  <input name="process" type="submit" value="delete"/>
+	</td>
+  </tr>
+</table>
+</form>
+</literal>

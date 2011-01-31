@@ -1,0 +1,21 @@
+#Position Probability Weight Matrix:
+	A	C	G	T	Con.	Deg.
+1	0.0091	0.0072	0.0072	0.9765	T	T
+2	0.0091	0.0072	0.9746	0.0091	G	G
+3	0.6132	0.0072	0.1949	0.1847	A	A
+4	0.1185	0.2004	0.5626	0.1185	G	G
+5	0.0091	0.0072	0.0072	0.9765	T	T
+6	0.0091	0.9746	0.0072	0.0091	C	C
+7	0.9765	0.0072	0.0072	0.0091	A	A
+#Source:
+DFCI
+#Factor Name:
+AP1
+#Species:
+N/A
+#PMID:
+N/A
+#Domain:
+N/A
+#Structure Category:
+N/A

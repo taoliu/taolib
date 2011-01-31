@@ -1,0 +1,7 @@
+<div class="loginfo">
+  {% if user.is_authenticated %}
+  You have logged in as <a href="/accounts/profile/"><b>{{ user }}</b></a>, if it's wrong, you can <a href="/accounts/logout/">logout</a>.
+  {% else %}
+  You may be <a href="/accounts/login/">logged in</a> to view/delete/update some entries.
+  {% endif %}
+</div>

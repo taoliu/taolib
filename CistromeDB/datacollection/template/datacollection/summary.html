@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Summary Page{% endblock %}
+{% block h1 %}Summary{% endblock %}
+
+{% block content %}
+    <td valign="top">
+      <div class="showcase">
+	<table>
+	  <tbody>
+	    <tr>
+	      <td>
+		Now is {% now "jS F Y H:i" %}
+	      </td>
+	    </tr>
+	    <tr>
+	      <td>
+		<h3>{{ nseries }} series</h3>
+		<table>
+		  <thead>
+		    <tr>
+		      <th> Paper </th>
+		      <th> Lab   </th>
+		      <th> Pubmed </th>
+		      <th> GEO    </th>
+		      <th> Status </th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    {% for s in series %}
+		    <tr>
+		      <td>{{ s.short_paper }}</td>
+		      <td>{{ s.lab }}</td>
+		      <td><a href="http://www.ncbi.nlm.nih.gov/pubmed/{{ s.pubmed }}">{{ s.pubmed }}</a></td>
+		      <td><a href="http://www.ncbi.nlm.nih.gov/projects/geo/query/acc.cgi?acc=GSE{{ series.geo }}">GSE{{ s.geo }}</a></td>
+		      <td><a href="series/{{ s.id }}/">{{ s.status }}</a></td>
+		    </tr>
+		    {% endfor %}
+		  </tbody>
+		</table>
+		<a href="series/"><big>See more...</big></a>
+	      </td>
+	    </tr>
+	    <tr>
+	      <td>
+		<h3>{{ nsample }} samples</h3>
+		<table>
+		  <thead>
+		    <tr>
+		      <th> Description </th>
+		      <th> Paper </th>
+		      <th> Status </th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    {% for s in samples %}
+		    <tr>
+		      <td><a href="sample/factor/{{s.factor}}/"><b>{{s.factor}}</b></a>
+			in <a href="sample/species/{{s.species}}/"><b>{{s.species}}</b></a> <a href="sample/cell/{{s.cell}}/"><b>{{s.cell}}</b></a>
+			cell by <a href="sample/platform/{{s.platform}}/"><b>{{s.platform}}</b></a></td>
+		      <td>{{ s.series.short_paper }}</td>
+		      <td><a href="sample/{{s.id}}/">{{ s.status }}</a></td>
+		    </tr>
+		    {% endfor %}
+		  </tbody>
+		</table>
+		<a href="sample/"><big>See more...</big></a>
+	      </td>
+	    </tr>
+	  </tbody>
+	</table>
+      </div>
+{% endblock %}

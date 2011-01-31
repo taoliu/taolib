@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Sample Page{% endblock %}
+{% block h1 %}Delete Sample Confirmation{% endblock %}
+
+{% block content %}
+    <td valign="top">
+      {% include 'loginfo.html' %}
+      <table>
+	<tr>
+	  <td>
+	    {% include 'datacollection/query_sample.html' %}
+	    <div class="showcase">
+	      <table>
+		<tr>
+		  <td>
+		    <form action="." method="POST" style="width:800px">
+		      <p>
+		      <a href="../../factor/{{object.factor}}/"><b>{{object.factor}}</b></a>
+		      in <a href="../../species/{{object.species}}/"><b>{{object.species}}</b></a> <a href="../../cell/{{object.cell}}/"><b>{{object.cell}}</b></a>
+		      cell by <a href="../../exp_type/{{object.exp_type}}/"><b>{{object.exp_type}}</b></a>
+		      will be DELETED! To confirm the deletion, click
+		      the button.
+		      </p>
+		      <input type="submit" value="Confirm" />
+		    </form>
+		  </td>
+		</tr>
+	      </table>
+	    </div>
+	  </td>
+	</tr>
+      </table>
+    </td>
+{% endblock %}

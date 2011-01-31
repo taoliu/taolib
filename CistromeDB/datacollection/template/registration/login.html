@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+  <title>Sample Index page</title>
+  <link rel="stylesheet" type="text/css"
+	href="http://localhost/css/showcase.css" />
+
+  <meta name="description" content="Cistrome website by Liu lab and Brown lab" />
+  <meta name="keywords" content="chip-seq, chip-chip, solexa, solid, biology, computer" />
+  <meta name="generator" content="Django Python" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
+
+<h1 id="top">
+<img src="http://www.silentgenetheory.com/images/dna_logo.png"
+     class="logo" alt="dna logo" />CistromeDB::Sample Index
+</h1>
+
+<table>
+  <tr>
+    <td>
+      {% include 'nav.html' %}
+    </td>
+    <td>
+      {% block content %}
+
+      {% if form.errors %}
+      <p>Your username and password didn't match. Please try again.</p>
+      {% endif %}
+      
+      <form method="post" action=".">
+	<table>
+	  <tr><td>{{ form.username.label_tag }}</td><td>{{ form.username }}</td></tr>
+	  <tr><td>{{ form.password.label_tag }}</td><td>{{ form.password }}</td></tr>
+	</table>
+	
+	<input type="submit" value="login" />
+	<input type="hidden" name="next" value="{{ next }}" />
+      </form>
+      
+      {% endblock %}      
+    </td>
+  </tr>
+</table>
+{% include 'nav_foot.html' %}
+</body>
+</html>

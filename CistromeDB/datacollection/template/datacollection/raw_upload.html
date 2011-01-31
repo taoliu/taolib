@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Update Sample page{% endblock %}
+{% block h1 %}Update Sample{% endblock %}
+
+{% block content %}
+    <td valign="top">
+      {% include 'loginfo.html' %}
+      {% include 'datacollection/query_sample.html' %}
+      <table>
+	<tr>
+	  <td>
+	    <div class="showcase">
+	      <table>
+		<tr>
+		  <td>
+		    <form action="." method="POST" enctype="multipart/form-data">
+		      <tr><th>{{form.raw_file.label_tag}}</th><td>{{form.raw_file}}</td></tr>
+		      <td><input type="submit" value="Submit" /></td>
+		    </form>
+		  </td>
+		</tr>
+	      </table>
+	    </div>
+	  </td>
+	</tr>
+      </table>
+    </td>
+{% endblock %}
+

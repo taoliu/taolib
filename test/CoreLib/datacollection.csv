@@ -1,0 +1,15 @@
+"factor"	"organism"	"cell"	"condition"	"platform"	"lab"	"pmid"	"rawdata"	"output"	"id"
+"P63"	"hg17"	"ME180 human cervical carcinoma cells"	"absence (-) or presence (+) of ActD"	"Affy WG"	"Struhl lab"	1	"/cluster/homes/zcoban/3/CEL/GSE6132_RAW"	"/cluster/homes/zcoban/3/TAG/p63_ActD.bed"	3
+"FoxA1"	"hg18"	"MCF7"		"Affy WG"		2	"/cluster/homes/zcoban/ChIP/Affy/FoxA1/CEL"	"/cluster/homes/zcoban/ChIP/Affy/FoxA1/TAG/FoxA1_MCF7.bed"	15
+"Oct4, Sox2, Klf4, c-Myc,Nanog, Dax1, Rex1, Zpf281, and Nac1"	"mm7"	"mouse ES cells"	"biotin mediated ChIP-chip"	"Affy Mouse Promoter 1.0R"	"Stuart H Orkin lab"	3	"/cluster/homes/zcoban/1/CEL"	"/cluster/homes/zcoban/1/Factorname_TAG/Factorname_Cell.bed"	1
+"E2F4, RBL2/p130, LIN9 and LIN54."	"hg17"	"T98G cells"	"G0-arrested and S-phase synchronized cells"	"Affy Human Promoter 1.0R"	"Xiaopeng Zhu"	4	"/cluster/homes/zcoban/2/CEL"	"/cluster/homes/zcoban/2/Factorname_condition_TAG/Factorname_condition.bed"	2
+"Nanog, Oct4, STAT3, Smad1, Sox2, Zfx, c-Myc, n-Myc, Klf4, Esrrb, Tcfcp2l1, E2f1,CTCF,p300 and Suz12"	"mm8"	"mouse embryonic stem cells"	"ES cells before differentiation"	"Solexa"	"Chia-Lin Wei"	5	"/cluster/homes/zcoban/4/GSE11431_RAW"		4
+"GABP, SRF, TAF, and NRSF"	"hg17"	"GMO6990 cells,HeLa,HepG2,Jurkat,k562  "		"Affy Human WG 2.0 R"	"Myers lab"	6	"/cluster/homes/zcoban/5/CEL"		5
+"ER alpha and c-MYC"	"hg17"	"MCF7 cells "	"treated with estrogen alpha"	"Affy Human WG 2.0 R"	"Kevin White lab"	7	"/cluster/homes/zcoban/6/CEL"		6
+"Foxp3"		"CD4 T cells"	"Foxp3 treated"	"Affy Mouse WG 2.0 R"	"Rudensky lab"	8	"/cluster/homes/zcoban/7/CEL"		7
+"neuronal MeCP2 "		"SH-SY5Y cells"	"PMA treated"	"Nimblegen 1.5kb Human Promoter"	"Yasui lab"	9	"/cluster/homes/zcoban/8/CEL"		8
+"CTCF"	"hg17"	"IMR90 and U937 cells"		"Nimblegen WG"	"Tae Kim"	10	"/cluster/homes/zcoban/9/NDF"		9
+"hScc1,CTCF,p53,CTCF RNAi,hSmc3"	"hg18"	"Hela cells,B cell,RPE cells"	"G2,G1,M phase"	"Affy Human WG 2.0 R"	"Laboratory of Chromosome Structure and Inheritance"	12	"/cluster/homes/zcoban/11/CEL"		11
+"FoxA1"	"hg18"	"MCF7 cells"	"Estrogen simulated"		"Brown"	13	"/cluster/homes/zcoban/12/Raw_data"	"/cluster/homes/zcoban/12/Output/FoxA1_MCF7_peaks.bed"	12
+"Histone modifications"	"mm8"	"ES cell, Neural Progenitor cell and MEF cell"	"pan-H3, trimethylated histone H3 lysine 4 (H3K4me3), H3K9me3, H3K27me3, H3K36me3, H4K20me3 and RNA polymerase II"	"Solexa"	"Bernstein"	14	"/cluster/homes/zcoban/13/Raw_data"	"/cluster/homes/zcoban/13/Output/Factorname_condition_peaks.bed"	13
+"SDC-3"		"C.Elegans ce2"			"Lieb lab"	15	"/cluster/homes/zcoban/14/Raw_data"	"/cluster/homes/zcoban/14/Output/SDC-3_ce2.peaks.bed"	14

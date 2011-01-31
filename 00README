@@ -1,0 +1,165 @@
+* WebApp list:
+
+1. CistromeDB
+
+The CistromeDB website based on Django framework. Check
+CistromeDB/INSTALL.txt for detail.
+
+* Exectuables list:
+
+1. motif_enrich.py 
+Usage: motif_enrich.py [options]
+
+Calculate the motif enrichment measured in foldchange and p-value for one BED
+file and one reference BED file
+
+Options:
+  --version             show program's version number and exit
+  -h, --help            Show this help message and exit.
+  -s SPECIES, --species=SPECIES
+                        species, must be "mm8" or "hg18"
+  -i IFILE, --ifile=IFILE
+                        input BED file, e.g. the ChIP regions
+  -r RFILE, --rfile=RFILE
+                        input reference BED file, e.g. the tiled regions.
+                        [optional] if not set, use the whole genome as
+                        reference
+  -c CUTOFF, --cutoff=CUTOFF
+                        cutoff for the motif scan score
+  -d IDIR, --idir=IDIR  input directory for binary Motif Scan Results files
+  -a, --all             If set, also show the depleted motifs. Default, not
+                        show
+  --minfc=MINFC         minimum foldchange for motif enrichment, default:0
+  --maxp=MAXP           maximum p-value for motif enrichment, default:1
+  --minpercent=MINPERCENT
+                        minimum percentage of input BED regions containing
+                        motif, default:5
+  --maxpercent=MAXPERCENT
+                        maximum percentage of input BED regions containing
+                        motif, default:300
+  --verbose=VERBOSE     Name of a directory. if set, save verbose information
+                        in the direcotry.
+  -o OFILE, --ofile=OFILE
+                        output file
+2. ceas.py
+Usage: ceas.py [options]
+
+CEAS -- Cis-regulatory Element Annotation System
+
+Options:
+  --version             show program's version number and exit
+  -h, --help            Show this help message and exit.
+  --chip-res=CHIP_RES   ChIP resolution, default: 600 bp
+  --bg-res=BG_RES       Genome BG resolution, default: 100 bp
+  --promoter=PROMOTER   Promoter range size, default: 3000 bp
+  --bipromoter=BIPROMOTER
+                        Bidirectional-promoter range size, default: 5000 bp
+  --downstream=DOWNSTREAM
+                        Downstream range size, default: 3000 bp
+  --nopf                No profiling is run and the options regarding
+                        profiiling will not be effective if this switch is set
+  --rel-dist=REL_DIST   Relative distance to TSS/TTS for gene profiling,
+                        default: 3000 bp
+  --metagene-size=METAGENE_SIZE
+                        Metagene size, default: 3000 bp
+  --pf-res=PF_RES       Profiling resolution, default: 50 bp
+  --gn-groups=GN_GROUPS
+                        Gene-group file names (eg, top10.txt,bottom10.txt),
+                        default: all genes
+  --gn-group-names=GN_NAMES
+                        Gene-group names for profiling (eg, top 10%,bottom
+                        10%), default: None
+  -a, --alt-gn-name     'name2' in refGene table is used if set. This flag is
+                        meaningful only if --gn-groups is set.
+  -i IFILE, --ifile=IFILE
+                        input BED file, e.g. the ChIP regions
+  -w WFILE, --wfile=WFILE
+                        input wiggle file.
+  -n NCBED, --ncbed=NCBED
+                        noncoding region BED file, default: None
+  -g GDB, --gene-db=GDB
+                        Gene annotation database file from Cistrome website
+  --gt=GT               optional genome table. default: None
+  -o OFILE, --ofile=OFILE
+                        output R script. default: stdout
+  --verbose=VERBOSE     Name of a directory. if set, save verbose information
+                        in the direcotry.
+
+3. qc_chIP.py 
+Usage: qc_chIP.py [options]
+
+QC for two replicates of ChIP-chip experiment. Do both peak level and
+probe level calculations.
+
+Options:
+  --version             show program's version number and exit
+  -h, --help            Show this help message and exit.
+  -p PEAK1, --peak1=PEAK1
+                        peak file in xls format for #1 replicate
+  -q PEAK2, --peak2=PEAK2
+                        peak file in xls format for #2 replicate
+  -x WIG1, --wig1=WIG1  wiggle file for #1 replicate
+  -y WIG2, --wig2=WIG2  wiggle file for #2 replicate
+  -r RFILE, --rfile=RFILE
+                        R output file
+  -f FORMAT, --format=FORMAT
+                        ma2c, mat or macs, default: ma2c
+  -s STEP, --step=STEP  number of steps to calculate cor based on some score
+                        ranges, default: 5
+
+4. qc_chIP2.py 
+Usage: qc_chIP2.py [options]
+
+QC for two replicates of ChIP-chip experiment. Only for naive overall
+probe level calculation.
+
+Options:
+  --version             show program's version number and exit
+  -h, --help            Show this help message and exit.
+  -x WIG1, --wig1=WIG1  wiggle file for #1 replicate
+  -y WIG2, --wig2=WIG2  wiggle file for #2 replicate
+  -r RFILE, --rfile=RFILE
+                        R output file. If not set, do not save R file.
+  -s STEP, --step=STEP  probe step, default: 100
+  -f FORMAT, --format=FORMAT
+                        ma2c, mat or macs, default: ma2c
+
+5. count_probes_in_peaks.py 
+Usage: count_probes_in_peaks.py [options]
+
+Summarize ChIP-chip experiment. Calculate how many probes are included
+in peak regions.
+
+Options:
+  --version             show program's version number and exit
+  -h, --help            Show this help message and exit.
+  -p PEAK1, --peak1=PEAK1
+                        peak file in xls format for #1 replicate
+  -x WIG1, --wig1=WIG1  wiggle file for #1 replicate
+  -o OFILE, --ofile=OFILE
+                        output file
+  -f FORMAT, --format=FORMAT
+                        ma2c, mat or macs, default: ma2c
+
+6. count_probes_in_ranges.py 
+Usage: count_probes_in_ranges.py [options]
+
+Summarize ChIP-chip experiment. Calculate how many probes fall into
+certain score ranges '(-inf,-1],(-1,0],(0,+1],(+1,+inf)'.
+
+Options:
+  --version             show program's version number and exit
+  -h, --help            Show this help message and exit.
+  -x WIG1, --wig1=WIG1  wiggle file for #1 replicate
+  -o OFILE, --ofile=OFILE
+                        output file
+
+7. xyz2image.py 
+
+Restore the microarray image.
+
+ need 1 parameter: xyz2image.py <X-Y-Value-file>
+
+ X-Y-Value-file is a tab-delimited file with 1st column as
+ X-corrdinates, 2nd column as Y, and 3rd column as log-ratio value
+
