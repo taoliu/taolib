@@ -1,8 +1,0 @@
-#title The Search Term
-
-The searching engine accept the following terms:
-
- 1. factor
- 2. lab
- 3. organism
- 4. 

@@ -1,5 +1,0 @@
-MACS = '/usr/local/bin/macs'
-QSUB = '/usr/local/bin/qsub'
-QSTAT = '/usr/local/bin/qstat'
-CEAS = '/usr/local/bin/ceas.py'
-GENETABLEDIR = '/cluster1/cistrome_repository/libraries/ceas/GeneTable/'
