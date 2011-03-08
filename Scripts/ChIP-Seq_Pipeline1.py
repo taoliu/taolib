@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Time-stamp: <2011-03-08 12:20:57 Tao Liu>
+# Time-stamp: <2011-03-08 16:33:11 Tao Liu>
 
 """Script Description: A demo ChIP-seq pipeline script. From reads
 mapping to motif analysis. It will do 4 validity checks before running
@@ -342,7 +342,7 @@ def step1_bowtie (configs):
     if configs["others.startstep"] <= 1 and 1 <= configs["others.endstep"]:
         info("Step 1: BOWTIE...")
     else:
-        info("Bowtie is skipped as requested.")
+        info("Step 1 Bowtie is skipped as requested.")
         return False
     if configs["data.raw_data_type"] == "seq":
         pass
@@ -419,14 +419,14 @@ def step2_macs (configs):
     if configs["others.startstep"] <= 2 and 2 <= configs["others.endstep"]:
         info("Step 2: MACS...")
     else:
-        info("MACS is skipped as requested.")
+        info("Step 2 MACS is skipped as requested.")
         return False
     if configs["data.raw_data_type"] == "alignment":
         _step2_macs_alignment(configs)
     elif configs["data.raw_data_type"] == "seq":
         _step2_macs_seq(configs)
     else:
-        info("Since raw data typs is not alignment or sequences, MACS is skipped.")
+        info("Since raw data typs is not alignment or sequences, step 2 MACS is skipped.")
         return False
 
 def _step2_macs_alignment (configs):
@@ -609,7 +609,7 @@ def step3_ceas (configs):
     if configs["others.startstep"] <= 3 and 3 <= configs["others.endstep"]:
         info("Step 3: CEAS...")
     else:
-        info("CEAS is skipped as requested.")
+        info("Step 3 CEAS is skipped as requested.")
         return False
 
     # check the input
@@ -656,7 +656,7 @@ def step4_venn (configs):
     if configs["others.startstep"] <= 4 and 4 <= configs["others.endstep"]:
         info("Step 4: Venn diagram...")
     else:
-        info("Venn diagram is skipped as requested.")
+        info("Step 4 Venn diagram is skipped as requested.")
         return False
 
     # check the input
@@ -680,19 +680,17 @@ def step4_venn (configs):
         warn("Venn diagram can't process > 3 files!")
         command_line = "touch "+configs["venn.replicates_output_png"]
         run_cmd(command_line)
-        return True
     elif configs["data.number_replicates"] == 1:
         # no replicates, no Venn diagram
         info("No replicates, so no Venn diagram for replicates")
         command_line = "touch "+configs["venn.replicates_output_png"]
         run_cmd(command_line)
-        return True
-        
-    # run Venn diagram for replicates
-    command_line = configs["venn.venn_diagram_main"]+" -t Overlap_of_Replicates"+" "+" ".join(peak_bed_file_replicates)+" "+" ".join(map(lambda x:"-l replicate_"+str(x),xrange(1,configs["data.number_replicates"]+1)))
-    run_cmd(command_line)
-    command_line = "mv venn_diagram.png "+configs["venn.replicates_output_png"]
-    run_cmd(command_line)
+    else:
+        # run Venn diagram for replicates
+        command_line = configs["venn.venn_diagram_main"]+" -t Overlap_of_Replicates"+" "+" ".join(peak_bed_file_replicates)+" "+" ".join(map(lambda x:"-l replicate_"+str(x),xrange(1,configs["data.number_replicates"]+1)))
+        run_cmd(command_line)
+        command_line = "mv venn_diagram.png "+configs["venn.replicates_output_png"]
+        run_cmd(command_line)
 
     # run Venn for DHS overlap
     command_line = configs["venn.venn_diagram_main"]+" -t Overlap_with_DHS"+" -l Peaks "+peak_bed_file+" -l DHS "+DHS_bed_file
@@ -711,7 +709,7 @@ def step5_cor (configs):
     if configs["others.startstep"] <= 5 and 5 <= configs["others.endstep"]:
         info("Step 5: Correlation plot...")
     else:
-        info("Correlation plot is skipped as requested.")
+        info("Step 5 Correlation plot is skipped as requested.")
         return False
 
     # check the input
@@ -772,7 +770,7 @@ def step6_conserv (configs):
     if configs["others.startstep"] <= 6 and 6 <= configs["others.endstep"]:
         info("Step 6: Conservation plot...")
     else:
-        info("Conservation plot is skipped as requested.")
+        info("Step 6 Conservation plot is skipped as requested.")
         return False
 
     # check the input
@@ -798,7 +796,7 @@ def step7_seqpos (configs):
     if configs["others.startstep"] <= 7 and 7 <= configs["others.endstep"]:
         info("Step 7: Conservation plot...")
     else:
-        info("SeqPos is skipped as requested.")
+        info("Step 7 SeqPos is skipped as requested.")
         return False
 
     # check the input
@@ -809,10 +807,18 @@ def step7_seqpos (configs):
         sys.exit(1)
 
     # generate top # of peaks
-    top_n = configs["seqpos.seqpos_top_peaks"]
-    top_n_summits = "top"+top_n+"_summits.bed"
-    command_line = "sort -n -r -k 5 "+peak_summits_file+" | head -"+top_n+" > "+top_n_summits
-    run_cmd(command_line)
+    psf_fhd = open(peak_summits_file)
+    p_list = []
+    for i in psf_fhd:
+        p_list.append( (i,float(i.split()[-1])) )
+    top_n = int(configs["seqpos.seqpos_top_peaks"])
+    top_n_summits = map(lambda x:x[0],sorted(p_list,key=lambda x:x[1],reverse=True)[:top_n])
+    top_n_summits_file = "top"+str(top_n)+"_summits.bed"
+    top_n_summits_fhd = open(top_n_summits_file,"w")
+    for i in top_n_summits:
+        top_n_summits_fhd.write(i)
+    top_n_summits_fhd.close()
+    info("Top %d summits are written to %s" % (top_n,top_n_summits_file))
     
     # run SeqPos: use the current daisy version as standard, you may need to modify the options.
     # options
@@ -830,23 +836,25 @@ def step7_seqpos (configs):
         seqpos_motif_option = " -m transfac.xml,pbm.xml,jaspar.xml "
     seqpos_filter_option = " -s "+configs["sample.species"]
     
-    command_line = configs["seqpos.seqpos_main"]+" -d "+seqpos_width_option+seqpos_pvalue_option+seqpos_motif_option+seqpos_filter_option+" "+top_n_summits+" "+configs["sample.assembly_name"]
+    command_line = configs["seqpos.seqpos_main"]+" -d "+seqpos_width_option+seqpos_pvalue_option+seqpos_motif_option+seqpos_filter_option+" "+top_n_summits_file+" "+configs["sample.assembly_name"]
     run_cmd(command_line)
-    command_line = "zip "+configs["seqpos.output_zip"]+" result/"
+    command_line = "zip -r "+configs["seqpos.output_zip"]+" results/"
     run_cmd(command_line)
     return True
 
 def step8_package_result ( configs ):
-    """Package result and generate a summary file.
+    """Package result and generate a summary file. -> a subfolder
+    named as sample#sample_id and zip it as sample#sample_id.tar.bz2
 
     """
     if configs["others.startstep"] <= 8 and 8 <= configs["others.endstep"]:
         info("Step 8: Packaging results...")
     else:
-        info("Packaging is skipped as requested.")
+        info("Step 8 Packaging is skipped as requested.")
         return False
 
-    command_line = "mkdir "+configs["sample.sample_id"]
+    subfolder = "sample"+configs["sample.sample_id"]
+    command_line = "mkdir "+subfolder
     run_cmd(command_line)
     
     all_files = []
@@ -881,16 +889,18 @@ def step8_package_result ( configs ):
     f = open(configs["macs.output_xls"])
     n = 0
     for l in f:
-        if l.startswith("# d= "):
+        l.rstrip()
+        if l.startswith("# d = "):
             n = int(l[6:])
+            break
     logfhd.write("Value d from MACS is %d\n----\n" % n)
     f.close()
 
-    command_line = "mv "+" ".join(all_files)+" "+configs["sample.sample_id"]+"/"
+    command_line = "mv "+" ".join(all_files)+" "+subfolder+"/"
     run_cmd(command_line)
-    command_line = "cp log "+configs["sample.sample_id"]+"/"
+    command_line = "cp log "+subfolder+"/"
     run_cmd(command_line)
-    command_line = "tar -jcf "+configs["sample.sample_id"]+".tar.bz2 "+configs["sample.sample_id"]+"/"
+    command_line = "tar -jcf "+subfolder+".tar.bz2 "+subfolder+"/"
     run_cmd(command_line)
 
 
@@ -925,7 +935,7 @@ def main():
     if stopatstep:
         configs["others.endstep"] = startstep
     else:
-        configs["others.endstep"] = 7
+        configs["others.endstep"] = 8
 
     configs["others.cwd"] = os.getcwd()
     
