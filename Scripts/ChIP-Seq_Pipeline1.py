@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Time-stamp: <2011-03-09 13:43:49 Tao Liu>
+# Time-stamp: <2011-03-09 15:35:33 Tao Liu>
 
 """Script Description: A demo ChIP-seq pipeline script. From reads
 mapping to motif analysis. It will do 4 validity checks before running
@@ -904,9 +904,10 @@ def step8_package_result ( configs ):
     run_cmd(command_line)
     command_line = "cp log "+subfolder+"/"
     run_cmd(command_line)
+    command_line = "cp "+configs["config_file"]+" "+subfolder+"/"
+    run_cmd(command_line)
     command_line = "tar -jcf "+subfolder+".tar.bz2 "+subfolder+"/"
     run_cmd(command_line)
-
 
 # ------------------------------------
 # Main function
@@ -933,6 +934,7 @@ def main():
     # parse the config file
     config_file = args[0]
     configs = read_config(config_file)
+    configs["config_file"] = config_file
 
     # decide the start step and end step of the pipeline
     configs["others.startstep"] = startstep
