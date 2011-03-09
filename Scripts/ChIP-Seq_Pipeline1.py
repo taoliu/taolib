@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Time-stamp: <2011-03-08 16:33:11 Tao Liu>
+# Time-stamp: <2011-03-09 13:43:49 Tao Liu>
 
 """Script Description: A demo ChIP-seq pipeline script. From reads
 mapping to motif analysis. It will do 4 validity checks before running
@@ -388,16 +388,20 @@ def step1_bowtie (configs):
         command_line = configs["bowtie.bowtie_main"]+" -S "+bowtie_format_option+bowtie_max_alignment_option+configs["bowtie.bowtie_genome_index_path"]+" "+tfiles[i-1]+" "+configs["bowtie.treat_output_replicates"][i-1]
         run_cmd(command_line)
         # convert sam to bam
-        command_line = configs["samtools.samtools_main"]+" view -bt "+configs["samtools.samtools_chrom_len_path"]+" "+configs["bowtie.treat_output_replicates"][i-1]+" > "+configs["samtools.treat_output_replicates"][i-1]
+        command_line = configs["samtools.samtools_main"]+" view -bt "+configs["samtools.samtools_chrom_len_path"]+" "+configs["bowtie.treat_output_replicates"][i-1]+" -o "+configs["samtools.treat_output_replicates"][i-1]
         run_cmd(command_line)
 
     # combine replicates:
-    command_line = "cat "+ " ".join(configs["bowtie.treat_output_replicates"]) + " > " + configs["bowtie.treat_output"]
-    run_cmd(command_line)
-    # convert sam to bam
-    command_line = configs["samtools.samtools_main"]+" view -bt "+configs["samtools.samtools_chrom_len_path"]+" "+configs["bowtie.treat_output"]+" > "+configs["samtools.treat_output"]
-    run_cmd(command_line)
 
+    if len(tfiles)>=1:
+        # samtools merge command
+        command_line = "samtools merge "+configs["samtools.treat_output"]+" "+" ".join(configs["samtools.treat_output_replicates"])
+        run_cmd(command_line)
+    else:
+        # only one replicate, simply clone it.
+        command_line = "cp "+configs["samtools.treat_output_replicates"][0]+" "+configs["samtools.treat_output"]
+        run_cmd(command_line)
+    
     # for the control data:
     if len(cfiles)>=1:
         combined_input_file = "combined_input." + idata_format
@@ -472,7 +476,7 @@ def _step2_macs_alignment (configs):
             command_line = "samtools merge "+combined_input_ali_file+" "+" ".join(cfiles)
             run_cmd(command_line)
         elif idata_format == "SAM" or idata_format == "BED":
-            # samtools merge command
+            # cat them... * remember, SAM headers may be redundant, so it may cause some problem if you later convert it to BAM.
             combined_input_ali_file = "combined_input."+idata_format
             command_line = "cat "+ " ".join(cfiles) + " > " + combined_input_ali_file
             run_cmd(command_line)
