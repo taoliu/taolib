@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Time-stamp: <2011-03-09 15:35:33 Tao Liu>
+# Time-stamp: <2011-03-11 01:42:06 Tao Liu>
 
 """Script Description: A demo ChIP-seq pipeline script. From reads
 mapping to motif analysis. It will do 4 validity checks before running
@@ -317,13 +317,15 @@ def prepare_output_file_names ( configs ):
     configs["venn.replicates_output_png"] = sampleid+"_venn_replicates.png"
     configs["venn.dhs_output_png"] = sampleid+"_venn_dhs.png"    
 
-    configs["correlation.output_pdf"] = sampleid+"_cor.pdf"
+    configs["correlation.output_pdf"] = sampleid+"_cor.R.pdf"
     configs["correlation.output_R"] = sampleid+"_cor.R"
 
     configs["conservation.output_bmp"] = sampleid+"_conserv.bmp"
     configs["conservation.output_R"] = sampleid+"_conserv.R"    
 
     configs["seqpos.output_zip"] = sampleid+"_seqpos.zip"
+
+    configs["config_file"] = sampleid+".conf"
     return configs
 
 # wrapper to run command 
@@ -904,9 +906,9 @@ def step8_package_result ( configs ):
     run_cmd(command_line)
     command_line = "cp log "+subfolder+"/"
     run_cmd(command_line)
-    command_line = "cp "+configs["config_file"]+" "+subfolder+"/"
+    command_line = "cp "+configs["orig_config_file"]+" "+subfolder+"/"+configs["config_file"]
     run_cmd(command_line)
-    command_line = "tar -jcf "+subfolder+".tar.bz2 "+subfolder+"/"
+    command_line = "tar -zcf "+subfolder+".tar.gz "+subfolder+"/"
     run_cmd(command_line)
 
 # ------------------------------------
@@ -934,7 +936,7 @@ def main():
     # parse the config file
     config_file = args[0]
     configs = read_config(config_file)
-    configs["config_file"] = config_file
+    configs["orig_config_file"] = config_file
 
     # decide the start step and end step of the pipeline
     configs["others.startstep"] = startstep
