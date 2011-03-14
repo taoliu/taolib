@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Time-stamp: <2011-03-11 01:42:06 Tao Liu>
+# Time-stamp: <2011-03-14 05:12:35 Tao Liu>
 
 """Script Description: A demo ChIP-seq pipeline script. From reads
 mapping to motif analysis. It will do 4 validity checks before running
@@ -395,7 +395,7 @@ def step1_bowtie (configs):
 
     # combine replicates:
 
-    if len(tfiles)>=1:
+    if len(tfiles)>1:
         # samtools merge command
         command_line = "samtools merge "+configs["samtools.treat_output"]+" "+" ".join(configs["samtools.treat_output_replicates"])
         run_cmd(command_line)
@@ -456,7 +456,7 @@ def _step2_macs_alignment (configs):
     idata_format = configs["data.raw_data_format"]
 
     # combine treatment/input data
-    if len(tfiles)>=1:
+    if len(tfiles)>1:
         if idata_format == "BAM":
             # samtools merge command
             combined_treat_ali_file = "combined_treat.bam"
@@ -475,7 +475,10 @@ def _step2_macs_alignment (configs):
         if idata_format == "BAM":
             # samtools merge command
             combined_input_ali_file = "combined_input.bam"
-            command_line = "samtools merge "+combined_input_ali_file+" "+" ".join(cfiles)
+            if len(cfiles)>1:
+                command_line = "samtools merge "+combined_input_ali_file+" "+" ".join(cfiles)
+            else:
+                command_line = "cp "+cfiles[0]+" "+combined_input_ali_file
             run_cmd(command_line)
         elif idata_format == "SAM" or idata_format == "BED":
             # cat them... * remember, SAM headers may be redundant, so it may cause some problem if you later convert it to BAM.
