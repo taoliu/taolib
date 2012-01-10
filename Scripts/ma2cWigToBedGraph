@@ -1,0 +1,64 @@
+#!/usr/bin/env python
+# Time-stamp: <2012-01-10 16:52:01 Tao Liu>
+
+# in the wiggle file from MA2C, the 1st column -- position is actually
+# the center of each probe. Some probes may overlap. In order to
+# convert them to appropriate bigwig, I need to create bedGraph file
+# with above two problems fixed.
+
+import os
+import sys
+# ------------------------------------
+# Main function
+# ------------------------------------
+def main():
+    if len(sys.argv) < 2:
+        sys.stderr.write("need 1 paras: %s <MA2C wig file>\n\n**Make sure your variableStep wig file is from MA2C!\n**In the output, gaps will be filled with 0 and if two regions are overlapped, the later value will be used.\n" % sys.argv[0])
+        sys.exit(1)
+
+    #max_span = int(sys.argv[1])
+    wigfile = open(sys.argv[1],"r")
+
+    #fs = bdgfile.readline().rstrip().split()
+    #prev_region = (fs[0],int(fs[1]),int(fs[2]),float(fs[3]))
+    prev_region = None
+
+
+    for l in wigfile:
+        if l.startswith("track"):
+            continue
+        if l.startswith("variableStep"):
+            chrom = l.rstrip().split()[1].split("=")[1]
+            span = int(l.rstrip().split()[2].split("=")[1])
+            continue
+        (pos,value) = l.rstrip().split()
+        startpos = int(pos) - int(span/2)
+        endpos = startpos + span
+        curr_region = (chrom,startpos,endpos,float(value))
+        
+        if not prev_region:
+            prev_region = curr_region
+            continue
+            
+        if prev_region[0] == curr_region[0]:
+            # only if they are in the same chromosome
+            right_pos_of_prev_region = min(curr_region[1],prev_region[1]+span)
+            if right_pos_of_prev_region > prev_region[1]:
+                print "%s\t%d\t%d\t%.4f" % (prev_region[0],prev_region[1],right_pos_of_prev_region,prev_region[3])
+            # fill in gaps with 0
+            if curr_region[1] > prev_region[1]+span:
+                print "%s\t%d\t%d\t%.4f" % (prev_region[0],prev_region[1]+span,curr_region[1],0)
+        else:
+            right_pos_of_prev_region = prev_region[1]+span
+            if right_pos_of_prev_region > prev_region[1]:
+                print "%s\t%d\t%d\t%.4f" % (prev_region[0],prev_region[1],right_pos_of_prev_region,prev_region[3])
+        prev_region = curr_region
+
+    # last region
+    right_pos_of_prev_region = prev_region[1]+span
+    if right_pos_of_prev_region > prev_region[1]:
+        print "%s\t%d\t%d\t%.4f" % (prev_region[0],prev_region[1],right_pos_of_prev_region,prev_region[3])
+
+
+if __name__ == '__main__':
+    main()

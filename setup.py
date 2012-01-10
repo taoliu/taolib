@@ -57,7 +57,8 @@ def main():
                    'Scripts/norm.py',
                    'Scripts/cutoff.py',
                    'Scripts/ChIP-seq_Pipeline1.py',
-                   'Scripts/convert_gene_ids.py',                   
+                   'Scripts/convert_gene_ids.py',
+                   'Scripts/ma2cWigToBedGraph',
 #                   'Scripts/hmm_conception.py',
                    ],
 
