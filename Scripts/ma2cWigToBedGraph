@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Time-stamp: <2012-01-10 16:52:01 Tao Liu>
+# Time-stamp: <2012-01-10 17:05:55 Tao Liu>
 
 # in the wiggle file from MA2C, the 1st column -- position is actually
 # the center of each probe. Some probes may overlap. In order to
@@ -12,12 +12,18 @@ import sys
 # Main function
 # ------------------------------------
 def main():
-    if len(sys.argv) < 2:
-        sys.stderr.write("need 1 paras: %s <MA2C wig file>\n\n**Make sure your variableStep wig file is from MA2C!\n**In the output, gaps will be filled with 0 and if two regions are overlapped, the later value will be used.\n" % sys.argv[0])
+    if len(sys.argv) < 3:
+        sys.stderr.write("""need 2 paras: %s <shift> <MA2C wig file>
+
+        shift: if the position in wig file is not the leftmost position of the represented region, use this option to fix. For example, if a probe is 50bp, and in wig, 1st column is the middle points of probes, use -25. Otherwise, use 0
+        
+        **Make sure your variableStep wig file is from MA2C!
+        **In the output, gaps will be filled with 0 and if two regions are overlapped, the later value will be used.
+        """ % sys.argv[0])
         sys.exit(1)
 
-    #max_span = int(sys.argv[1])
-    wigfile = open(sys.argv[1],"r")
+    ssize = int(sys.argv[1])
+    wigfile = open(sys.argv[2],"r")
 
     #fs = bdgfile.readline().rstrip().split()
     #prev_region = (fs[0],int(fs[1]),int(fs[2]),float(fs[3]))
@@ -32,7 +38,7 @@ def main():
             span = int(l.rstrip().split()[2].split("=")[1])
             continue
         (pos,value) = l.rstrip().split()
-        startpos = int(pos) - int(span/2)
+        startpos = int(pos) + ssize
         endpos = startpos + span
         curr_region = (chrom,startpos,endpos,float(value))
         
