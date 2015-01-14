@@ -1,9 +1,9 @@
 #!/usr/bin/env python
-# Time-stamp: <2015-01-14 13:47:38 Tao Liu>
+# Time-stamp: <2015-01-14 13:48:42 Tao Liu>
 
 """Module Description
 
-Copyright (c) 2008 Tao Liu <taoliu@jimmy.harvard.edu>
+Copyright (c) 2008, 2015 Tao Liu <tliu4@buffalo.edu>
 
 This code is free software; you can redistribute it and/or modify it
 under the terms of the BSD License (see the file COPYING included with
@@ -12,7 +12,7 @@ the distribution).
 @status:  experimental
 @version: $Revision$
 @author:  Tao Liu
-@contact: taoliu@jimmy.harvard.edu
+@contact: tliu4@buffalo.edu
 """
 
 # ------------------------------------
