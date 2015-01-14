@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Time-stamp: <2010-09-09 15:24:52 Tao Liu>
+# Time-stamp: <2015-01-14 13:47:38 Tao Liu>
 
 """Module Description
 
@@ -40,9 +40,9 @@ from optparse import OptionParser
 #std = stats.std
 def check_Rscript_BEDTools ():
     try:
-        p = Popen(["coverageBed","-h"],stdout=PIPE,stderr=PIPE)
+        p = Popen(["bedtools","coverage","-h"],stdout=PIPE,stderr=PIPE)
     except OSError as (errno,detail):
-        sys.stderr.write("'coverageBed' can not be accessed through the command line!\n")
+        sys.stderr.write("'bedtools coverage' can not be accessed through the command line!\n")
         sys.stderr.write("OS gave me this error message: [Errno %d]: %s\n" % (errno,detail))
         sys.stderr.write("Please download BEDtools from <http://code.google.com/p/bedtools/>.\n")
         sys.exit(1)
@@ -64,7 +64,7 @@ def check_Rscript_BEDTools ():
 def main():
     check_Rscript_BEDTools()
     usage = "usage: %prog [options]"
-    description = "Calculate bed correlation using BEDtools"
+    description = "Calculate bed correlation using BEDtools, based on basepair overlap comparing to random genome background. The one-side hypergeometric tests will be applied to decide whether to accept alternative hypothesis of enrichment or depletion. 'bedtools' and 'R' are both required. Note, please make sure the chromosome naming convientions of the twoe files are the same."
     
     optparser = OptionParser(version="%prog 0.1",description=description,usage=usage,add_help_option=False)
     optparser.add_option("-h","--help",action="help",help="Show this help message and exit.")
@@ -82,8 +82,8 @@ def main():
 
     gsize = int(options.gsize)
     
-    p = Popen(["coverageBed","-a",options.ifile,"-b",options.jfile,"-hist"],stdout=PIPE)
-    q = Popen(["coverageBed","-b",options.ifile,"-a",options.jfile,"-hist"],stdout=PIPE)
+    p = Popen(["bedtools coverage","-a",options.ifile,"-b",options.jfile,"-hist"],stdout=PIPE)
+    q = Popen(["bedtools coverage","-b",options.ifile,"-a",options.jfile,"-hist"],stdout=PIPE)
     coverage2 = [0,0]
     for i in p.stdout:
         if i.startswith('all'):
