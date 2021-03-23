@@ -33,7 +33,7 @@ Entrez.email = "your email here"
 # ------------------------------------
 # Misc functions
 # ------------------------------------
-def search_genes(id_list,search_field):
+def search_genes(id_list,search_field, db_name):
     """Use ESearch to convert RefSeq or Gene symbols to standard
     Entrez IDs.
 
@@ -42,8 +42,11 @@ def search_genes(id_list,search_field):
 
     Return a list of Entrez IDs.
     """
+    if len(id_list) > 100000:
+        print('Max number of entries (100,000) exceeded, split your entries list')
+        sys.exit()
     term = " OR ".join(map(lambda x:x+"["+search_field+"]",id_list))
-    esearch_result = Entrez.esearch(db="gene",term=term,retmod="xml")
+    esearch_result = Entrez.esearch(db=db_name,term=term,retmod="xml", retmax=100000)
     parsed_result = Entrez.read(esearch_result)
     return parsed_result['IdList']
 
@@ -155,9 +158,9 @@ def main():
         sys.exit(-1)
     input_id_list = options.ids
     if options.itype == "refseq":
-        entrez_id_list = search_genes(input_id_list,"ACCN")
+        entrez_id_list = search_genes(input_id_list,"ACCN","nucleotide")
     elif options.itype == "symbol":
-        entrez_id_list = search_genes(input_id_list,"GENE")
+        entrez_id_list = search_genes(input_id_list,"GENE","gene")
     elif options.itype == "entrez":
         entrez_id_list = input_id_list
     
